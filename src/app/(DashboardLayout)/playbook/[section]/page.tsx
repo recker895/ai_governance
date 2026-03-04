@@ -1,16 +1,3 @@
-"use client"
-
-import { useRouter } from "next/navigation"
-
-import { Card, CardContent } from "@/components/ui/card"
-
-import {
-Accordion,
-AccordionItem,
-AccordionTrigger,
-AccordionContent
-} from "@/components/ui/accordion"
-
 const sections:any={
 
 governance:{
@@ -218,68 +205,5 @@ text:`• system inventory coverage
 }
 ]
 }
-
-}
-
-export default function SectionPage({params}:{params:{section:string}}){
-
-const router=useRouter()
-
-const section=sections[params.section]
-
-if(!section){
-return <div className="p-8">Section not found</div>
-}
-
-return(
-
-<div className="p-8 space-y-8">
-
-<button
-onClick={()=>router.push("/playbook")}
-className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
->
-← Back
-</button>
-
-<Card className="shadow-xl">
-
-<CardContent className="p-6">
-
-<h2 className="text-2xl font-semibold mb-6">
-{section.title}
-</h2>
-
-<Accordion type="single" collapsible>
-
-{section.content.map((item:any,index:number)=>(
-
-<AccordionItem key={index} value={`item-${index}`}>
-
-<AccordionTrigger>
-{item.title}
-</AccordionTrigger>
-
-<AccordionContent>
-
-<pre className="whitespace-pre-wrap text-sm bg-gray-50 p-4 rounded-lg">
-{item.text}
-</pre>
-
-</AccordionContent>
-
-</AccordionItem>
-
-))}
-
-</Accordion>
-
-</CardContent>
-
-</Card>
-
-</div>
-
-)
 
 }
