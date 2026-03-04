@@ -7,6 +7,7 @@ import SidebarContent from './Sidebaritems'
 import SimpleBar from 'simplebar-react'
 import { Icon } from '@iconify/react'
 import FullLogo from '../shared/logo/FullLogo'
+
 import {
   AMLogo,
   AMMenu,
@@ -14,6 +15,7 @@ import {
   AMSidebar,
   AMSubmenu,
 } from 'tailwind-sidebar'
+
 import 'tailwind-sidebar/styles.css'
 
 const renderSidebarItems = (
@@ -32,33 +34,30 @@ const renderSidebarItems = (
       <Icon icon={'ri:checkbox-blank-circle-line'} height={9} width={9} />
     )
 
-    // Section Heading
     if (item.heading) {
       return (
-        <div className='mb-1' key={item.heading}>
+        <div className="mb-1" key={item.heading}>
           <AMMenu
             subHeading={item.heading}
-            ClassName='hide-menu leading-21 text-charcoal font-bold uppercase text-xs dark:text-darkcharcoal'
+            ClassName="hide-menu leading-21 text-charcoal font-bold uppercase text-xs dark:text-darkcharcoal"
           />
         </div>
       )
     }
 
-    // Submenu
     if (item.children?.length) {
       return (
         <AMSubmenu
           key={item.id}
           icon={iconElement}
           title={item.name}
-          ClassName='mt-0.5 text-link dark:text-darklink !rounded-3xl'
+          ClassName="mt-0.5 text-link dark:text-darklink !rounded-3xl"
         >
           {renderSidebarItems(item.children, currentPath, onClose, true)}
         </AMSubmenu>
       )
     }
 
-    // Regular Menu Item
     const linkTarget = item.url?.startsWith('https') ? '_blank' : '_self'
 
     const itemClassNames = isSubItem
@@ -71,20 +70,18 @@ const renderSidebarItems = (
 
     return (
       <div onClick={onClose} key={index}>
-        <AMMenuItem
-          key={item.id}
-          icon={iconElement}
-          isSelected={isSelected}
-          link={item.url || undefined}
-          target={linkTarget}
-          disabled={item.disabled}
-          component={Link}
-          className={itemClassNames}
-        >
-          <span className='truncate flex-1'>
-            {item.title || item.name}
-          </span>
-        </AMMenuItem>
+        <Link href={item.url || "#"} target={linkTarget}>
+          <AMMenuItem
+            icon={iconElement}
+            isSelected={isSelected}
+            disabled={item.disabled}
+            className={itemClassNames}
+          >
+            <span className="truncate flex-1">
+              {item.title || item.name}
+            </span>
+          </AMMenuItem>
+        </Link>
       </div>
     )
   })
@@ -99,24 +96,22 @@ const SidebarLayout = ({ onClose }: { onClose?: () => void }) => {
 
   return (
     <AMSidebar
-      collapsible='none'
+      collapsible="none"
       animation={true}
       showProfile={false}
-      width='270px'
+      width="270px"
       showTrigger={false}
       mode={sidebarMode}
-      className='fixed left-0 top-0 xl:top-[70px] border-none shadow-boxShadow bg-background z-10 h-screen'
+      className="fixed left-0 top-0 xl:top-[70px] border-none shadow-boxShadow bg-background z-10 h-screen"
     >
-      {/* Logo */}
-      <div className='px-4 flex items-center brand-logo overflow-hidden'>
-        <AMLogo component={Link} href='/' img=''>
+      <div className="px-4 flex items-center brand-logo overflow-hidden">
+        <AMLogo component={Link} href="/" img="">
           <FullLogo />
         </AMLogo>
       </div>
 
-      {/* Sidebar Items */}
-      <SimpleBar className='h-[calc(100vh-100px)]'>
-        <div className='px-6'>
+      <SimpleBar className="h-[calc(100vh-100px)]">
+        <div className="px-6">
           {SidebarContent.map((section, index) => (
             <div key={index}>
               {renderSidebarItems(

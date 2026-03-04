@@ -38,12 +38,12 @@ const SidebarContent: MenuItem[] = [
         icon: "solar:shield-warning-linear",
         url: "/risk"
       },
-      {
-        id: uniqueId(),
-        name: "Privacy by Design",
-        icon: "solar:lock-keyhole-linear",
-        url: "/privacy"
-      },
+  {
+id: uniqueId(),
+name: "Privacy by Design",
+icon: "solar:lock-linear",
+url: "/privacy"
+},
       {
         id: uniqueId(),
         name: "Transparency and Explainability",

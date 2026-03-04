@@ -10,22 +10,22 @@ export default function Layout({
 }) {
   return (
     <div className="flex w-full min-h-screen bg-lightgray dark:bg-dark">
-      
+
       {/* Sidebar */}
-      <div className="xl:block hidden">
+      <div className="hidden xl:block w-[260px] shrink-0">
         <Sidebar />
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col">
-        
-        {/* Single Clean Header */}
+      <div className="flex-1 flex flex-col min-w-0">
+
+        {/* Header */}
         <Header />
 
         {/* Page Content */}
-        <div className="container mx-auto px-6 py-10">
+        <main className="flex-1 container mx-auto px-6 py-10">
           {children}
-        </div>
+        </main>
 
       </div>
 
