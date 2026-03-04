@@ -1,390 +1,285 @@
 "use client"
 
-import { useParams } from "next/navigation"
+import { useRouter } from "next/navigation"
+
+import { Card, CardContent } from "@/components/ui/card"
+
 import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
+Accordion,
+AccordionItem,
+AccordionTrigger,
+AccordionContent
 } from "@/components/ui/accordion"
 
-const playbookContent: Record<string, any> = {
+const sections:any={
 
-  governance: {
-    title: "Governance Structure",
-    sections: [
-      {
-        title: "Board & Apex Leadership",
-        content: `
-• Approve AI risk appetite
-• Approve prohibited AI uses
-• Review quarterly AI risk reports
-• Approve high-risk AI deployments
-        `,
-      },
-      {
-        title: "AI Risk & Ethics Committee (AIREC)",
-        content: `
-Central governance body responsible for:
+governance:{
+title:"Governance Structure",
+content:[
+{
+title:"Board & Apex Leadership",
+text:`• Approve AI risk appetite
+• Review quarterly AI reports
+• Approve high-risk AI deployments`
+},
+{
+title:"AI Risk & Ethics Committee (AIREC)",
+text:`• Maintain AI system inventory
+• Review high-risk AI systems
+• Approve deployment decisions`
+},
+{
+title:"Chief AI Risk Officer (CARO)",
+text:`• Implement governance policies
+• Coordinate with regulators
+• Manage AI risks`
+}
+]
+},
 
-• Maintaining AI system inventory
-• Reviewing high-risk systems
-• Approving deployment
-• Managing risk classification
-        `,
-      },
-      {
-        title: "Chief AI Risk Officer (CARO)",
-        content: `
-Responsible for AI governance program:
-
-• Regulatory coordination
-• Risk management
-• Policy implementation
-• Incident escalation
-        `,
-      },
-    ],
-  },
-
-  risk: {
-    title: "Risk Classification",
-    sections: [
-      {
-        title: "Prohibited AI Systems",
-        content: `
-• Social scoring systems
-• Biometric categorization by sensitive attributes
-• Emotion detection for hiring decisions
-• Subliminal manipulation of citizens
-        `,
-      },
-      {
-        title: "High Risk AI",
-        content: `
-Examples include:
-
-• Credit scoring systems
+risk:{
+title:"Risk Classification",
+content:[
+{
+title:"Prohibited AI",
+text:`• Social scoring
+• Biometric categorization
+• Emotion detection`
+},
+{
+title:"High Risk AI",
+text:`• Credit scoring
 • Hiring algorithms
-• Medical diagnosis systems
-• Critical infrastructure AI
-        `,
-      },
-      {
-        title: "Medium & Low Risk",
-        content: `
-Medium Risk:
-• Fraud detection
-• Content moderation
+• Medical diagnosis`
+}
+]
+},
 
-Low Risk:
-• Code assistants
-• Internal chatbots
-        `,
-      },
-    ],
-  },
-
-  lifecycle: {
-    title: "AI Lifecycle",
-    sections: [
-      {
-        title: "Lifecycle Stages",
-        content: `
-Data Collection
-↓
+lifecycle:{
+title:"AI Lifecycle",
+content:[
+{
+title:"Lifecycle Stages",
+text:`Data Collection
 Model Development
-↓
-Evaluation
-↓
+Testing
 Deployment
-↓
 Monitoring
-↓
-Decommissioning
-        `,
-      },
-    ],
-  },
+Decommission`
+}
+]
+},
 
-  data: {
-    title: "Data Governance",
-    sections: [
-      {
-        title: "Data Collection",
-        content: `
-• Lawful basis documentation
-• Consent mechanisms
+data:{
+title:"Data Governance",
+content:[
+{
+title:"Data Collection",
+text:`• Consent mechanisms
 • Data minimization
-        `,
-      },
-      {
-        title: "Processing Controls",
-        content: `
-• Bias detection
-• Data quality checks
-• Demographic representation
-        `,
-      },
-      {
-        title: "Data Storage & Deletion",
-        content: `
-• Encryption
-• Retention policies
-• Verifiable deletion
-        `,
-      },
-    ],
-  },
+• Lawful basis`
+},
+{
+title:"Data Processing",
+text:`• Bias detection
+• Data quality validation`
+}
+]
+},
 
-  model: {
-    title: "Model Development",
-    sections: [
-      {
-        title: "Secure Development",
-        content: `
-• Multi-factor authentication
-• Secure training environments
-• Access controls
-• Network segmentation
-        `,
-      },
-      {
-        title: "Threat Modeling",
-        content: `
-Identify threats such as:
-
-• Prompt injection
+model:{
+title:"Model Development",
+content:[
+{
+title:"Secure Development",
+text:`• MFA
+• Secure training environment
+• Access control`
+},
+{
+title:"Threat Modeling",
+text:`• Prompt injection
 • Data poisoning
-• Model extraction
-• Adversarial attacks
-        `,
-      },
-      {
-        title: "AI Bill of Materials",
-        content: `
-Documentation of:
+• Model extraction`
+}
+]
+},
 
-• datasets
-• pretrained models
-• libraries
-• APIs used
-        `,
-      },
-    ],
-  },
+evaluation:{
+title:"Evaluation & Testing",
+content:[
+{
+title:"Safety Testing",
+text:`• Harmful output detection
+• Jailbreak testing`
+},
+{
+title:"Fairness Testing",
+text:`• Demographic parity
+• Bias detection`
+}
+]
+},
 
-  evaluation: {
-    title: "Evaluation & Testing",
-    sections: [
-      {
-        title: "Safety Testing",
-        content: `
-• Harmful output detection
-• Jailbreak resistance
-• Misuse prevention
-        `,
-      },
-      {
-        title: "Security Testing",
-        content: `
-• Model extraction resistance
-• Backdoor detection
-• Adversarial testing
-        `,
-      },
-      {
-        title: "Fairness Testing",
-        content: `
-• Demographic parity
-• Language fairness
-• Bias detection
-        `,
-      },
-    ],
-  },
-
-  deployment: {
-    title: "Deployment Controls",
-    sections: [
-      {
-        title: "Secure Deployment",
-        content: `
-• Network isolation
-• Authentication
-• Rate limiting
-        `,
-      },
-      {
-        title: "Logging",
-        content: `
-Logs must capture:
-
-• prompts
+deployment:{
+title:"Deployment Controls",
+content:[
+{
+title:"Secure Deployment",
+text:`• Network isolation
+• Authentication`
+},
+{
+title:"Logging",
+text:`• prompts
 • responses
-• system changes
-• security events
-        `,
-      },
-    ],
-  },
+• security events`
+}
+]
+},
 
-  monitoring: {
-    title: "Monitoring & Assurance",
-    sections: [
-      {
-        title: "Real-Time Monitoring",
-        content: `
-• performance tracking
-• anomaly detection
-• system health monitoring
-        `,
-      },
-      {
-        title: "Scheduled Evaluations",
-        content: `
-• weekly fairness checks
-• monthly security scans
-• quarterly audits
-        `,
-      },
-    ],
-  },
+monitoring:{
+title:"Monitoring & Assurance",
+content:[
+{
+title:"Real Time Monitoring",
+text:`• anomaly detection
+• system health`
+},
+{
+title:"Scheduled Evaluations",
+text:`• weekly fairness checks
+• monthly security scans`
+}
+]
+},
 
-  incident: {
-    title: "Incident Response",
-    sections: [
-      {
-        title: "Incident Lifecycle",
-        content: `
-Detection
-↓
+incident:{
+title:"Incident Response",
+content:[
+{
+title:"Incident Lifecycle",
+text:`Detection
 Containment
-↓
 Investigation
-↓
-Recovery
-↓
-Lessons Learned
-        `,
-      },
-      {
-        title: "Critical Incidents",
-        content: `
-• safety failures
-• privacy breaches
-• election misinformation
-• infrastructure disruption
-        `,
-      },
-    ],
-  },
+Recovery`
+}
+]
+},
 
-  decommission: {
-    title: "Decommissioning",
-    sections: [
-      {
-        title: "System Retirement",
-        content: `
-1. Decommission planning
-2. Data inventory
-3. Access revocation
-4. Secure deletion
-5. Documentation update
-        `,
-      },
-    ],
-  },
+decommission:{
+title:"Decommissioning",
+content:[
+{
+title:"System Retirement",
+text:`• data deletion
+• access revocation
+• documentation update`
+}
+]
+},
 
-  compliance: {
-    title: "Compliance & Enforcement",
-    sections: [
-      {
-        title: "Enforcement Tools",
-        content: `
-• administrative penalties
-• license suspension
-• mandatory audits
-• criminal referral
-        `,
-      },
-      {
-        title: "Safe Harbor",
-        content: `
-Organizations receive protections if they:
+compliance:{
+title:"Compliance & Enforcement",
+content:[
+{
+title:"Enforcement Tools",
+text:`• penalties
+• audits
+• license suspension`
+}
+]
+},
 
-• disclose incidents
-• cooperate with regulators
-• demonstrate responsible AI governance
-        `,
-      },
-    ],
-  },
+roadmap:{
+title:"Implementation Roadmap",
+content:[
+{
+title:"100 Day Plan",
+text:`Day 1-30 Governance
+Day 31-60 Inventory
+Day 61-100 Controls`
+}
+]
+},
 
-  roadmap: {
-    title: "Implementation Roadmap",
-    sections: [
-      {
-        title: "100 Day Plan",
-        content: `
-Days 1-30:
-• appoint CARO
-• create governance committee
-
-Days 31-60:
-• AI system inventory
-
-Days 61-100:
-• evaluation gates implementation
-        `,
-      },
-    ],
-  },
-
-  metrics: {
-    title: "Metrics & Reporting",
-    sections: [
-      {
-        title: "Safety Metrics",
-        content: `
-• harmful output rate
-• jailbreak success rate
-        `,
-      },
-      {
-        title: "Governance Metrics",
-        content: `
-• system inventory coverage
-• evaluation completion rate
-        `,
-      },
-    ],
-  },
+metrics:{
+title:"Metrics & Reporting",
+content:[
+{
+title:"Safety Metrics",
+text:`• harmful output rate
+• jailbreak rate`
+},
+{
+title:"Governance Metrics",
+text:`• system inventory coverage
+• evaluation completion`
+}
+]
 }
 
-export default function PlaybookSection() {
-  const params = useParams()
-  const section = params.section as string
-  const data = playbookContent[section]
+}
 
-  if (!data) return <div className="p-6">Section not found</div>
+export default function SectionPage({params}:{params:{section:string}}){
 
-  return (
-    <div className="p-8 max-w-5xl">
-      <h1 className="text-3xl font-bold mb-6">{data.title}</h1>
+const router=useRouter()
 
-      <Accordion type="single" collapsible className="w-full">
-        {data.sections.map((item: any, index: number) => (
-          <AccordionItem key={index} value={`item-${index}`}>
-            <AccordionTrigger>{item.title}</AccordionTrigger>
-            <AccordionContent>
-              <pre className="whitespace-pre-wrap text-sm leading-relaxed">
-                {item.content}
-              </pre>
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </div>
-  )
+const section=sections[params.section]
+
+if(!section){
+return <div className="p-8">Section not found</div>
+}
+
+return(
+
+<div className="p-8 space-y-8">
+
+<button
+onClick={()=>router.push("/playbook")}
+className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+>
+← Back
+</button>
+
+<Card className="shadow-xl">
+
+<CardContent className="p-6">
+
+<h2 className="text-2xl font-semibold mb-6">
+{section.title}
+</h2>
+
+<Accordion type="single" collapsible>
+
+{section.content.map((item:any,index:number)=>(
+
+<AccordionItem key={index} value={`item-${index}`}>
+
+<AccordionTrigger>
+{item.title}
+</AccordionTrigger>
+
+<AccordionContent>
+
+<pre className="whitespace-pre-wrap text-sm bg-gray-50 p-4 rounded-lg">
+{item.text}
+</pre>
+
+</AccordionContent>
+
+</AccordionItem>
+
+))}
+
+</Accordion>
+
+</CardContent>
+
+</Card>
+
+</div>
+
+)
+
 }
