@@ -82,6 +82,7 @@ links: [
 { source:"GOVERN", target:"MAP" },
 { source:"MAP", target:"MEASURE" },
 { source:"MEASURE", target:"MANAGE" },
+{ source:"MANAGE", target:"GOVERN" },
 
 { source:"MAP", target:"Privacy Risk" },
 { source:"MAP", target:"Security Risk" },
